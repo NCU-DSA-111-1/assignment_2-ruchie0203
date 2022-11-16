@@ -7,7 +7,6 @@
 #define ROW 9
 #define COL 9
 
-
 int x=0,y=0;
 char bd[ROW][COL];
 int status = 0;

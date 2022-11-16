@@ -254,7 +254,8 @@ void main(int argc, char **argv){
             
         } 
     }
-    freeStruct();
+    free(current);
+    free(head);
     fclose(fPtr);
 }
 /* Detect if the chess can be promoted */
@@ -985,9 +986,4 @@ void addMatch(int iX,int iY, int nX, int nY, char cM, char cE){
     new->previous=current;
     new->next=NULL;
     current=current->next;
-}
-/* Free all the struct */
-void freeStruct(){
-    free(current);
-    free(head);
 }

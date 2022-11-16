@@ -21,7 +21,6 @@ void timecalc();
 void printtimer();
 void drop();
 void promoDetect(int iX,int iY, int nX, int nY);
-void freeStruct();
 void addMatch(int iX,int iY, int nX, int nY, char cM, char cE);
 
 #endif
