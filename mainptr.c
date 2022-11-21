@@ -261,7 +261,7 @@ void main(int argc, char **argv){
 /* Detect if the chess can be promoted */
 void promoDetect(int iX,int iY, int nX, int nY){
     char I;
-    char c = bd[iY][iX];
+    char *c = &bd[iY][iX];
     int rightInput=0;
     if(count%2==0){
         if(nY<6 && iY<6)
@@ -273,24 +273,24 @@ void promoDetect(int iX,int iY, int nX, int nY){
             switch(I){
                 case 'y':
                 case 'Y':
-                    switch(c){
+                    switch(*c){
                         case 'C': //角 -> 馬
-                            bd[iY][iX]='H';
+                            *c='H';
                             break;
                         case 'F': //飛 -> 龍
-                            bd[iY][iX]='D';
+                            *c='D';
                             break;
                         case 'Y': //銀 -> 全
-                            bd[iY][iX]='A';
+                            *c='A';
                             break; 
                         case 'S': //香 -> 杏
-                            bd[iY][iX]='X';
+                            *c='X';
                             break;
                         case 'G': //桂 -> 圭
-                            bd[iY][iX]='P';
+                            *c='P';
                             break;
                         case 'B': //步 -> と
-                            bd[iY][iX]='K';
+                            *c='K';
                             break;
                     }
                     rightInput=1;
@@ -317,24 +317,24 @@ void promoDetect(int iX,int iY, int nX, int nY){
             switch(I){
                 case 'y':
                 case 'Y':
-                    switch(c){
+                    switch(*c){
                         case 'c': //角 -> 馬
-                            bd[iY][iX]='h';
+                            *c='h';
                             break;
                         case 'f': //飛 -> 龍
-                            bd[iY][iX]='d';
+                            *c='d';
                             break;
                         case 'y': //銀 -> 全
-                            bd[iY][iX]='a';
+                            *c='a';
                             break; 
                         case 's': //香 -> 杏
-                            bd[iY][iX]='x';
+                            *c='x';
                             break;
                         case 'g': //桂 -> 圭
-                            bd[iY][iX]='p';
+                            *c='p';
                             break;
                         case 'b': //步 -> と
-                            bd[iY][iX]='k';
+                            *c='k';
                             break;
                     }
                     rightInput=1;
@@ -354,11 +354,12 @@ void promoDetect(int iX,int iY, int nX, int nY){
 /* Drop the chess in hand */
 void drop(){
     int i;
-    int newX,newY=0;
+    int newX=0,newY=0;
     int dropNum=0;
+    char *c;
     scanf("%d",&dropNum);
     getchar();
-    if(dropNum<0){
+    if(dropNum<=0){
         printf("選錯了啦!\n");
         sleep(1);
         return;
@@ -380,7 +381,8 @@ void drop(){
     }
     newX=9-newX;
     newY=newY-1;
-    if(bd[newY][newX]!='t'){
+    c=&bd[newY][newX];
+    if((*c)!='t'){
         printf("必須選空的地方！\n");
         sleep(1);
         return;
@@ -389,7 +391,29 @@ void drop(){
         if(dropNum>top1)
             return;
         addMatch(-2,dropNum,newX,newY,chessEat1[dropNum]-32,'t');
-        bd[newY][newX]=chessEat1[dropNum]-32;
+        switch(*c){
+            case 'h': //角 -> 馬
+                *c='C';
+                break;
+            case 'd': //飛 -> 龍
+                *c='F';
+                break;
+            case 'a': //銀 -> 全
+                *c='Y';
+                break; 
+            case 'x': //香 -> 杏
+                *c='S';
+                break;
+            case 'p': //桂 -> 圭
+                *c='G';
+                break;
+            case 'k': //步 -> と
+                *c='B';
+                break;
+            default:
+                *c=(char)(chessEat1[dropNum]-32);
+                break;
+        }
         for(i=dropNum;i<top1;i++){
             chessEat1[i]=chessEat1[i+1];
         }
@@ -400,7 +424,29 @@ void drop(){
         if(dropNum>top2)
             return;
         addMatch(-2,dropNum,newX,newY,chessEat2[dropNum]+32,'t');
-        bd[newY][newX]=chessEat2[dropNum]+32;
+        switch(*c){
+            case 'H': //角 -> 馬
+                *c='c';
+                break;
+            case 'D': //飛 -> 龍
+                *c='f';
+                break;
+            case 'A': //銀 -> 全
+                *c='y';
+                break; 
+            case 'X': //香 -> 杏
+                *c='s';
+                break;
+            case 'P': //桂 -> 圭
+                *c='g';
+                break;
+            case 'K': //步 -> と
+                *c='b';
+                break;
+            default:
+                *c=(char)(chessEat2[dropNum]+32);
+                break;
+        }
         for(i=dropNum;i<top2;i++){
             chessEat2[i]=chessEat2[i+1];
         }
