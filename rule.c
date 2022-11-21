@@ -17,8 +17,6 @@ int FROMREADTOPLAY=0;
 int END=0;
 int Print_eaten_chess=0;
 
-time_t p1start=0,p1end=0,p2start=0,p2end=0;
-
 
 /* Shogi rule check */
 int moveCheck(int iX,int iY, int nX, int nY){

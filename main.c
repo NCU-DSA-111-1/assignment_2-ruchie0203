@@ -4,6 +4,7 @@
 extern char *optarg;
 extern int optind, opterr, optopt;
 
+time_t p1start=0,p1end=0,p2start=0,p2end=0;
 
 void main(int argc, char **argv){
     int i;
