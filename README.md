@@ -1,4 +1,4 @@
-# Assignment 3 - Shogi in C (with Linked List)
+# Assignment 2 - Shogi in C (with Linked List)
 
 ## **Compile**
 
