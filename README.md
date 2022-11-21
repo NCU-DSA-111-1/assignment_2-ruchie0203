@@ -3,7 +3,7 @@
 ## **Compile**
 
 ```bash
-gcc -g main.c rule.c -o Chess
+gcc -g main.c rule.c data.c -o Chess
 ```
 ## **Run**
 
