@@ -1,6 +1,4 @@
-// #include "typedef.h"
-#include "functionsptr.h"
-// #include <stdlib.h>
+#include "functions.h"
 #define ROW 9
 #define COL 9
 

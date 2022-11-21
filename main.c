@@ -1,5 +1,5 @@
-#include "typedefptr.h"
-#include "functionsptr.h"
+#include "typedef.h"
+#include "functions.h"
 
 extern char *optarg;
 extern int optind, opterr, optopt;

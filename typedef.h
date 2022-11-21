@@ -1,5 +1,5 @@
-#ifndef TYPEDEFPTR_H
-#define TYPEDEFPTR_H
+#ifndef TYPEDEF_H
+#define TYPEDEF_H
 
 #include <time.h>
 #include <stdio.h>
