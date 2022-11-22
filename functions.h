@@ -19,7 +19,7 @@ void chessBack(int iX,int iY, int nX, int nY, char cM, char cE);
 void readbd();
 void timecalc();
 void printtimer();
-void drop();
+int drop();
 void promoDetect(int iX,int iY, int nX, int nY);
 void addMatch(int iX,int iY, int nX, int nY, char cM, char cE);
 

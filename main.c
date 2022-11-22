@@ -51,11 +51,8 @@ void main(int argc, char **argv){
     }
     while(!END){
         /* Start the timer for player1/player2*/
-        if(count%2==0)
-            time(&p1start);
-        
-        else
-            time(&p2start);
+        time(&p1start);
+        time(&p2start);
         
        /* GAME MODE */
         while(status==1){
@@ -106,12 +103,12 @@ void main(int argc, char **argv){
                     sleep(1);
                     break;
                 }
+                count--;
                 if(count%2==0)
                     time(&p1end);
                 else
                     time(&p2end);
                 timecalc(); 
-                count--;
                 current=current->previous;
                 chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMove,current->chessEaten);
                 break;
@@ -127,8 +124,12 @@ void main(int argc, char **argv){
             else if(input =='D' || input == 'd'){
                 getchar();
                 printf("選擇要打入的棋子編號！\n");
-                drop();
-                timecalc(); 
+                if(drop()){
+                    timecalc();
+                    count++;
+                }                
+                else
+                    timecalc(); 
                 break;
             }
             inputX=input-48;
@@ -348,7 +349,6 @@ void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
     }
     bd[iY][iX]=cM;
     bd[nY][nX]=cE;
-    // printf("top1:%c, top2:%c\n",chessEat1[top1],chessEat2[top2]);
     if(chessEat1[top1]==cE){
         chessEat1[top1]='t';
         top1--;

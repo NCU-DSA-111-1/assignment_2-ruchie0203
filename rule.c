@@ -111,7 +111,7 @@ void promoDetect(int iX,int iY, int nX, int nY){
     }
 }
 /* Drop the chess in hand */
-void drop(){
+int drop(){
     int i;
     int newX=0,newY=0;
     int dropNum=0;
@@ -121,13 +121,21 @@ void drop(){
     if(dropNum<=0){
         printf("選錯了啦!\n");
         sleep(1);
-        return;
+        if(count%2==0)
+            time(&p1end);
+        else
+            time(&p2end);
+        return 0;
     }
     dropNum-=1;
     if((count%2==0 && dropNum>top1) || (count%2==1 && dropNum>top2)){
         printf("駒台上沒有這個位子喔!\n");
         sleep(1);
-        return;
+        if(count%2==0)
+            time(&p1end);
+        else
+            time(&p2end);
+        return 0;
     }
     printf("輸入要打入的座標\n");\
     scanf("%d",&newX);
@@ -144,11 +152,20 @@ void drop(){
     if((*c)!='t'){
         printf("必須選空的地方！\n");
         sleep(1);
-        return;
+        if(count%2==0)
+            time(&p1end);
+        else
+            time(&p2end);
+        return 0;
     }
     if(count%2==0){
-        if(dropNum>top1)
-            return;
+        if(dropNum>top1){
+            if(count%2==0)
+                time(&p1end);
+            else
+                time(&p2end);
+            return 0;
+        }
         addMatch(-2,dropNum,newX,newY,chessEat1[dropNum]-32,'t');
         switch(*c){
             case 'h': //角 -> 馬
@@ -180,8 +197,13 @@ void drop(){
         top1--;
     }
     else{
-        if(dropNum>top2)
-            return;
+        if(dropNum>top2){
+            if(count%2==0)
+                time(&p1end);
+            else
+                time(&p2end);
+            return 0;
+        }
         addMatch(-2,dropNum,newX,newY,chessEat2[dropNum]+32,'t');
         switch(*c){
             case 'H': //角 -> 馬
@@ -212,7 +234,11 @@ void drop(){
         chessEat2[top2]='t';
         top2--;
     }
-    count++;
+    if(count%2==0)
+        time(&p1end);
+    else
+        time(&p2end);
+    return 1;
     
 }
 /* Determine if the chess eating is available*/
