@@ -14,6 +14,7 @@ void main(int argc, char **argv){
     char input;
     current=(matchPtr) malloc(sizeof(match));
     head=(matchPtr) malloc(sizeof(match));
+    temp=(matchPtr) malloc(sizeof(match));
     current->next=current->previous=NULL; // Initialize the linked list
     head=current;
     chessIni();
@@ -111,6 +112,10 @@ void main(int argc, char **argv){
                 timecalc(); 
                 current=current->previous;
                 chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMove,current->chessEaten);
+                temp=current->next;
+                current->next=NULL;
+                free(temp);
+                maxcount=count;
                 break;
             }
             else if(input == 'E' || input == 'e'){
@@ -247,6 +252,7 @@ void main(int argc, char **argv){
             }
             else if(input == 'p' || input == 'P'){
                 status=1;
+                FROMREADTOPLAY=1;
                 rewind(fPtr);
                 for(i=0;i<count;i++){
                     fscanf(fPtr,"\n");

@@ -35,6 +35,6 @@ typedef struct matchinfo* matchPtr;
 
 FILE *fPtr;
 
-extern matchPtr current,head;
+extern matchPtr current,head,temp;
 
 #endif

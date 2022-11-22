@@ -128,12 +128,14 @@ As either side eat their opponent's **王** chess. They will be the winner!
 
 ## **Current Bugs and Future**
 1. After loading a game and type in P to enter the playing mode. The move making is fine, but when saving the game, the game CAN rewrite the data to the right position in the saving file, but it CANNOT erase the rest of the data that is originally in the file.
-     - **Current Thought**:   
+     - **Current Thought** *(Solved)*:   
         Detect the "count" to see if it is smaller than "maxcount", if it does, then fprintf "-1" into the file. When loading the file, if it detect "-1", then the function will break to end the loading process and update the new "maxcount".
-2. **Lack function**: Timer(Libev), 升變
+2. **Functions not test yet**:  
+(1) Some functions after dropping the chess.
+3. **Lack function**: Timer(Libev), 升變-強制升變
 ## **Reference**
 
 (1) [Shogi Rule](https://shogi-classroom.blogspot.com/2012/09/blog-post.html)  
-(2) getopt() function :  
+(2) getopt( ) function :  
 　　- [getopt的用法與optarg](https://www.796t.com/content/1550615426.html)  
 　　- [Example of Parsing Arguments with getopt](https://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html)  

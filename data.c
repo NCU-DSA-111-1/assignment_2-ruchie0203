@@ -1,7 +1,7 @@
 #include "functions.h"
 #include "typedef.h"
 
-matchPtr current,head;
+matchPtr current,head,temp;
 
 /* Read the file and store the data in "Match" array */
 void readbd(){
@@ -15,7 +15,6 @@ void readbd(){
         addMatch(iX,iY,nX,nY,chessmoved,chesseaten);
         chessMove(iX,iY,nX,nY);
     }
-    FROMREADTOPLAY=1;
     maxcount=count;
 }
 /* Save the chessboard */
@@ -27,10 +26,8 @@ void saveInfo(){
         fprintf(fPtr,"%d %d %c %d %d %c\n",current->iX,current->iY,current->chessMove,current->nX,current->nY,current->chessEaten);
         current=current->next;
     }
-    if(FROMREADTOPLAY){
-        if(count<maxcount){
-            fprintf(fPtr,"%d %d",-1,-1);
-        }
+    if(count<maxcount){
+        fprintf(fPtr,"%d %d",-1,-1);
     }
     fflush(fPtr);
     
@@ -47,5 +44,5 @@ void addMatch(int iX,int iY, int nX, int nY, char cM, char cE){
     current->next=new;
     new->previous=current;
     new->next=NULL;
-    current=current->next;
+    current=new;
 }
