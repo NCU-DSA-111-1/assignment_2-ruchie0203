@@ -1,14 +1,14 @@
 CC = gcc
-src = src/main.c 
+src = $(wildcard src/*.c)
 objdir = build
 obj = $(objdir)/rule.o $(objdir)/data.o
 bin = bin/game
-main = src/main.c rule.o data.o
-# CFLAGS = -g 
+main = main.c rule.o data.o
 
 game: $(main)
-	$(CC) $(src)$(obj) -o $(bin)
+	$(CC) $(filter src/main.c, $(src)) $(obj) -o $(bin)
 
+main.c: src/main.c
 
 rule.o: src/rule.c
 	$(CC) -c src/rule.c -o $(objdir)/rule.o
@@ -21,3 +21,4 @@ data.o: src/data.c
 clean:
 	rm build/*.o
 	rm bin/game
+	
