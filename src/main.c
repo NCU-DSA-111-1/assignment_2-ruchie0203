@@ -107,6 +107,9 @@ void main(int argc, char **argv){
                     sleep(1);
                     break;
                 }
+                FROMREADTOPLAY=1;
+                if(count>maxcount)
+                    maxcount=count;
                 count--;
                 if(count%2==0)
                     time(&p1end);
@@ -118,7 +121,6 @@ void main(int argc, char **argv){
                 temp=current->next;
                 current->next=NULL;
                 free(temp);
-                maxcount=count;
                 break;
             }
             else if(input == 'E' || input == 'e'){

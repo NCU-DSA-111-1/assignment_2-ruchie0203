@@ -24,7 +24,7 @@ void saveInfo(){
         fprintf(fPtr,"%d %d %c %d %d %c\n",current->iX,current->iY,current->chessMove,current->nX,current->nY,current->chessEaten);
         current=current->next;
     }
-    if(count<maxcount){
+    if(FROMREADTOPLAY && count<maxcount){
         fprintf(fPtr,"%d %d",-1,-1);
     }
     fflush(fPtr);
