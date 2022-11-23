@@ -1,5 +1,5 @@
-#include "functions.h"
-#include "typedef.h"
+#include "../inc/functions.h"
+#include "../inc/typedef.h"
 
 matchPtr current,head,temp;
 

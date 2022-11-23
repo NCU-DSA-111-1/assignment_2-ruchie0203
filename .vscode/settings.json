@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "typedefptr.h": "c"
+        "typedefptr.h": "c",
+        "typedef.h": "c",
+        "functions.h": "c"
     }
 }

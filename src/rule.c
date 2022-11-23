@@ -1,5 +1,5 @@
-#include "functions.h"
-#include "typedef.h"
+#include "../inc/functions.h"
+#include "../inc/typedef.h"
 
 #define ROW 9
 #define COL 9
