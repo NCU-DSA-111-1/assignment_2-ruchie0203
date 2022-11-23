@@ -3,15 +3,18 @@
 ## **Compile**
 
 ```bash
-gcc -g main.c rule.c data.c -o Chess
+make
+gcc -c src/rule.c -o build/rule.o
+gcc -c src/data.c -o build/data.o
+gcc src/main.c build/rule.o build/data.o -o bin/chess
 ```
 ## **Run**
 
 * Use -n -s <file_name.txt> for a new game and game saving.
 * Use -l <file_name.txt> for loading a game
 ```bash
-./Chess -n -s game1.txt
-./Chess -l game0.txt
+./bin/chess -n -s game.txt
+./bin/chess -l game.txt
 ```
 ## **Game Method**
 
