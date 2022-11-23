@@ -1,7 +1,5 @@
-#include "../inc/functions.h"
+#include "../inc/data.h"
 #include "../inc/typedef.h"
-
-matchPtr current,head,temp;
 
 /* Read the file and store the data in "Match" array */
 void readbd(){

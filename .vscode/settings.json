@@ -2,6 +2,8 @@
     "files.associations": {
         "typedefptr.h": "c",
         "typedef.h": "c",
-        "functions.h": "c"
+        "functions.h": "c",
+        "time.h": "c",
+        "unistd.h": "c"
     }
 }

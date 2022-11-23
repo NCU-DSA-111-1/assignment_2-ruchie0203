@@ -1,4 +1,4 @@
-#include "../inc/functions.h"
+#include "../inc/rule.h"
 #include "../inc/typedef.h"
 
 #define ROW 9
@@ -667,5 +667,77 @@ int moveCheck(int iX,int iY, int nX, int nY){
         default:
             return 0;
             break;
+    }
+}
+/* To make the chess "go backward" */
+void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
+    int i;
+    if(iX==-2){ // The DROP situation
+        if(count%2==0){
+            top1++;
+            for(i=top1;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
+                chessEat1[i]=chessEat1[i-1];
+            }
+            chessEat1[iY]=cM+32;
+            bd[nY][nX]='t';
+        }
+        else{
+            top2++;
+            for(i=top2;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
+                chessEat2[i]=chessEat2[i-1];
+            }
+            chessEat2[iY]=cM-32;
+            bd[nY][nX]='t';
+        }
+        return;
+    }
+    switch(cM){
+        case 'D':
+            cM = 'F';
+            break;
+        case 'H':
+            cM = 'C';
+            break;
+        case 'X':
+            cM = 'S';
+            break;
+        case 'K':
+            cM = 'B';
+            break;
+        case 'P':
+            cM = 'G';
+            break;
+        case 'A':
+            cM = 'Y';
+            break;
+        case 'd':
+            cM = 'f';
+            break;
+        case 'h':
+            cM = 'c';
+            break;
+        case 'x':
+            cM = 's';
+            break;
+        case 'k':
+            cM = 'b';
+            break;
+        case 'p':
+            cM = 'g';
+            break;
+        case 'a':
+            cM = 'y';
+            break;            
+        
+    }
+    bd[iY][iX]=cM;
+    bd[nY][nX]=cE;
+    if(chessEat1[top1]==cE){
+        chessEat1[top1]='t';
+        top1--;
+    }
+    else if(chessEat2[top2]==cE){
+        chessEat2[top2]='t';
+        top2--;
     }
 }

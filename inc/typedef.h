@@ -1,8 +1,10 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
-#include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 #define ROW 9
 #define COL 9
