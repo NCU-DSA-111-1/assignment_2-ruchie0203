@@ -297,60 +297,6 @@ void printtimer(){
     printf("上方玩家: %d:%02d\n",p1timeMin,(int)(p1timeSec));
     printf("下方玩家: %d:%02d\n",p2timeMin,(int)(p2timeSec));
 }
-
-/* Determine if the player select the right chess in their team */
-int inputCheck(char chess){
-    if(count%2==1){
-        switch(chess){
-            case 'b':
-            case 'g':
-            case 'y':
-            case 'f':
-            case 'c':
-            case 's':
-            case 'j':
-            case 'w':
-                return 1;
-                break;
-            case 'B':
-            case 'G':
-            case 'Y':
-            case 'F':
-            case 'C':
-            case 'S':
-            case 'J':
-            case 'W':
-            case 't':
-                return 0;
-                break;                        
-        }
-    }
-    else if(count%2==0){
-        switch(chess){
-            case 'b':
-            case 'g':
-            case 'y':
-            case 'f':
-            case 'c':
-            case 's':
-            case 'j':
-            case 'w':
-            case 't':
-                return 0;
-                break;
-            case 'B':
-            case 'G':
-            case 'Y':
-            case 'F':
-            case 'C':
-            case 'S':
-            case 'J':
-            case 'W':
-                return 1;
-                break;                        
-        }
-    }
-}
 /* Print the chessboard*/
 void chessPrint(){
     int i,j;

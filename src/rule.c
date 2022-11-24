@@ -166,8 +166,8 @@ int drop(){
                 time(&p2end);
             return 0;
         }
-        addMatch(-2,dropNum,newX,newY,chessEat1[dropNum]-32,'t');
-        switch(*c){
+        // addMatch(-2,dropNum,newX,newY,chessEat1[dropNum]-32,'t');
+        switch(chessEat1[dropNum]){
             case 'h': //角 -> 馬
                 *c='C';
                 break;
@@ -190,6 +190,7 @@ int drop(){
                 *c=(char)(chessEat1[dropNum]-32);
                 break;
         }
+        addMatch(-2,dropNum,newX,newY,*c,'t');
         for(i=dropNum;i<top1;i++){
             chessEat1[i]=chessEat1[i+1];
         }
@@ -204,8 +205,8 @@ int drop(){
                 time(&p2end);
             return 0;
         }
-        addMatch(-2,dropNum,newX,newY,chessEat2[dropNum]+32,'t');
-        switch(*c){
+        // addMatch(-2,dropNum,newX,newY,chessEat2[dropNum]+32,'t');
+        switch(chessEat2[dropNum]){
             case 'H': //角 -> 馬
                 *c='c';
                 break;
@@ -228,6 +229,7 @@ int drop(){
                 *c=(char)(chessEat2[dropNum]+32);
                 break;
         }
+        addMatch(-2,dropNum,newX,newY,*c,'t');
         for(i=dropNum;i<top2;i++){
             chessEat2[i]=chessEat2[i+1];
         }
@@ -739,5 +741,58 @@ void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
     else if(chessEat2[top2]==cE){
         chessEat2[top2]='t';
         top2--;
+    }
+}
+/* Determine if the player select the right chess in their team */
+int inputCheck(char chess){
+    if(count%2==1){
+        switch(chess){
+            case 'b':
+            case 'g':
+            case 'y':
+            case 'f':
+            case 'c':
+            case 's':
+            case 'j':
+            case 'w':
+                return 1;
+                break;
+            case 'B':
+            case 'G':
+            case 'Y':
+            case 'F':
+            case 'C':
+            case 'S':
+            case 'J':
+            case 'W':
+            case 't':
+                return 0;
+                break;                        
+        }
+    }
+    else if(count%2==0){
+        switch(chess){
+            case 'b':
+            case 'g':
+            case 'y':
+            case 'f':
+            case 'c':
+            case 's':
+            case 'j':
+            case 'w':
+            case 't':
+                return 0;
+                break;
+            case 'B':
+            case 'G':
+            case 'Y':
+            case 'F':
+            case 'C':
+            case 'S':
+            case 'J':
+            case 'W':
+                return 1;
+                break;                        
+        }
     }
 }

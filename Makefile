@@ -1,14 +1,14 @@
 CC = gcc
 src = $(wildcard src/*.c)
-obj = $(wildcard build/*.o)
+obj = $(subst src,build,$(patsubst %.c,%.o,$(src)))
 filename = chess
-main = main.c rule.o data.o
+main = $(notdir $(obj))
 
 game: $(main)
-	$(CC) $(filter src/main.c, $(src)) $(obj) -o bin/$(filename)
+	$(CC) $(obj) -o bin/$(filename)
 
-main.c: src/main.c
-
+main.o: src/main.c
+	$(CC) -c src/main.c -o build/main.o
 rule.o: src/rule.c
 	$(CC) -c src/rule.c -o build/rule.o
 
@@ -18,6 +18,5 @@ data.o: src/data.c
 .PHONY = clean
 
 clean:
-	-rm $(wildcard build/*.o)
+	-rm $(obj)
 	-rm bin/$(filename)
-	
