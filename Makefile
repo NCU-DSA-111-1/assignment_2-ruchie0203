@@ -5,8 +5,10 @@ filename = chess
 main = $(notdir $(obj))
 
 game: $(main)
-	$(CC) $(obj) -o bin/$(filename)
+	$(CC) $(obj) -o bin/$(filename) -lev
 
+watcher.o: src/watcher.c
+	$(CC) -c src/watcher.c -o build/watcher.o -lev
 main.o: src/main.c
 	$(CC) -c src/main.c -o build/main.o
 rule.o: src/rule.c

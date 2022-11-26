@@ -4,6 +4,7 @@
         "typedef.h": "c",
         "functions.h": "c",
         "time.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "ev.h": "c"
     }
 }

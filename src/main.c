@@ -1,6 +1,7 @@
 #include "../inc/data.h"
 #include "../inc/rule.h"
 #include "../inc/main.h"
+#include "../inc/watcher.h"
 #include "../inc/typedef.h"
 
 extern char *optarg;
@@ -15,9 +16,13 @@ void main(int argc, char **argv){
     int newX=0,newY=0;
     int inputX=0,inputY=0;
     char input;
+    
     current=(matchPtr) malloc(sizeof(match));
     head=(matchPtr) malloc(sizeof(match));
     temp=(matchPtr) malloc(sizeof(match));
+    io_watcher = (ev_io*) malloc(sizeof(ev_io));
+    timer_watcher = (ev_timer*) malloc(sizeof(ev_timer));
+
     current->next=current->previous=NULL; // Initialize the linked list
     head=current;
     chessIni();
@@ -55,20 +60,18 @@ void main(int argc, char **argv){
     }
     while(!END){
         /* Start the timer for player1/player2*/
-        time(&p1start);
-        time(&p2start);
-        
-       /* GAME MODE */
+        // time(&p1start);
+        // time(&p2start); 
+        /* GAME MODE */
         while(status==1){
-            system("clear");
-            printtimer();
-            chessPrint();
+            timer();
             if(winlose()==1){
                 printf("= 恭喜上方玩家獲勝 =\n");
                 status = 0;
                 END = 1;
                 saveInfo();  
                 sleep(1);
+                // ev_break(loop,EVBREAK_ALL);
                 break;
             }
             else if(winlose()==2){
@@ -77,26 +80,19 @@ void main(int argc, char **argv){
                 END = 1;
                 saveInfo();  
                 sleep(1);
+                // ev_break(loop,EVBREAK_ALL);
                 break;
             }
-            if(count%2==0)
-                printf("- 輪到上方玩家 -\n");
-            else
-                printf("- 輪到下方玩家 -\n");
-            /* Get Input */
-            printf("輸入目標的座標X與Y:\n> ");
+            
             scanf("%c",&input);
+            timer();
             if(input == 's' || input == 'S'){ // Type in s/S for Game Save
                 getchar();
                 printf("Game Save!\n");
                 status=1;
                 END = 0;
                 saveInfo();  
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc(); 
+                
                 sleep(1);
                 break;
             }
@@ -107,15 +103,7 @@ void main(int argc, char **argv){
                     sleep(1);
                     break;
                 }
-                FROMREADTOPLAY=1;
-                if(count>maxcount)
-                    maxcount=count;
                 count--;
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc(); 
                 current=current->previous;
                 chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMove,current->chessEaten);
                 temp=current->next;
@@ -135,11 +123,8 @@ void main(int argc, char **argv){
                 getchar();
                 printf("選擇要打入的棋子編號！\n");
                 if(drop()){
-                    timecalc();
                     count++;
                 }                
-                else
-                    timecalc(); 
                 break;
             }
             inputX=input-48;
@@ -147,11 +132,7 @@ void main(int argc, char **argv){
             getchar();
             if(inputX > 10 || inputY > 10 || inputX < 0 || inputY < 0){
                 printf("輸入錯誤:(\n");
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc(); 
+                
                 sleep(1);
                 break;
             }
@@ -159,11 +140,7 @@ void main(int argc, char **argv){
             iY=inputY-1; //input position: y coordinate
             if(inputCheck(bd[iY][iX])==0){
                 printf("選錯棋子了！\n");
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc(); 
+                
                 sleep(1);
                 break;
             }
@@ -179,11 +156,7 @@ void main(int argc, char **argv){
             getchar();
             if(newX > 10 || newY > 10 || newX < 0 || newY < 0){
                 printf("輸入錯誤:P\n");
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc(); 
+                
                 sleep(1);
                 break;   
             }
@@ -207,21 +180,13 @@ void main(int argc, char **argv){
                         break;
                 } 
                 addMatch(iX,iY,nX,nY,bd[iY][iX],bd[nY][nX]);
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc();
+                
                 chessMove(iX,iY,nX,nY);
                 break;
             }
             else{
                 printf("違反規則:(\n");
-                if(count%2==0)
-                    time(&p1end);
-                else
-                    time(&p2end);
-                timecalc(); 
+                
                 sleep(1);
                 break;
             }
@@ -267,6 +232,8 @@ void main(int argc, char **argv){
             
         } 
     }
+    free(io_watcher);
+    free(timer_watcher);
     free(current);
     free(head);
     fclose(fPtr);
@@ -275,8 +242,8 @@ void main(int argc, char **argv){
 void timecalc(){
     int p1sum=0,p2sum=0;
     if(count%2==0){
-        p1sum+=abs(difftime(p1end,p1start));
-        p1timeSec+=p1sum;
+        // p1sum+=abs(difftime(p1end,p1start));
+        // p1timeSec+=p1sum;
         if(((int)(p1timeSec)/60)!=0){
             p1timeMin+=((int)(p1timeSec)/60);
             p1timeSec=(int)(p1timeSec)%60;
@@ -284,8 +251,8 @@ void timecalc(){
     }
         
     else{
-        p2sum+=abs(difftime(p2end,p2start));
-        p2timeSec+=p2sum;
+        // p2sum+=abs(difftime(p2end,p2start));
+        // p2timeSec+=p2sum;
         if((p2timeSec/60)!=0){
             p2timeMin+=((int)(p2timeSec)/60);
             p2timeSec=(int)(p2timeSec)%60;
