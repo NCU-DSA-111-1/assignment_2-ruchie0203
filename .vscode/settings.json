@@ -5,6 +5,7 @@
         "functions.h": "c",
         "time.h": "c",
         "unistd.h": "c",
-        "ev.h": "c"
+        "ev.h": "c",
+        "main.h": "c"
     }
 }

@@ -1,5 +1,6 @@
 #include "../inc/rule.h"
 #include "../inc/typedef.h"
+#include "../inc/watcher.h"
 
 #define ROW 9
 #define COL 9
@@ -26,7 +27,8 @@ void promoDetect(int iX,int iY, int nX, int nY){
         if(nY<6 && iY<6)
             return;
         while(rightInput!=1){
-            printf("是否將該棋子升變？(Y/N)\n> ");
+            FLAG = PROMOTECHOOSE;
+            timer();
             scanf("%c",&I);
             getchar();
             switch(I){
@@ -70,7 +72,8 @@ void promoDetect(int iX,int iY, int nX, int nY){
         if(nY>2 && iY>2)
             return;
         while(rightInput!=1){
-            printf("是否將該棋子升變？(Y/N)\n> ");
+            FLAG = PROMOTECHOOSE;
+            timer();
             scanf("%c",&I);
             getchar();
             switch(I){
@@ -121,23 +124,24 @@ int drop(){
     if(dropNum<=0){
         printf("選錯了啦!\n");
         sleep(1);
-        if(count%2==0)
-            time(&p1end);
-        else
-            time(&p2end);
+        // if(count%2==0)
+        //     time(&p1end);
+        // else
+        //     time(&p2end);
         return 0;
     }
     dropNum-=1;
     if((count%2==0 && dropNum>top1) || (count%2==1 && dropNum>top2)){
         printf("駒台上沒有這個位子喔!\n");
         sleep(1);
-        if(count%2==0)
-            time(&p1end);
-        else
-            time(&p2end);
+        // if(count%2==0)
+        //     time(&p1end);
+        // else
+        //     time(&p2end);
         return 0;
     }
-    printf("輸入要打入的座標\n");\
+    FLAG = DROPPLACE;
+    timer();
     scanf("%d",&newX);
     getchar();
     if((newX/10)==0)
@@ -152,38 +156,38 @@ int drop(){
     if((*c)!='t'){
         printf("必須選空的地方！\n");
         sleep(1);
-        if(count%2==0)
-            time(&p1end);
-        else
-            time(&p2end);
+        // if(count%2==0)
+        //     time(&p1end);
+        // else
+        //     time(&p2end);
         return 0;
     }
     if(count%2==0){
         if(dropNum>top1){
-            if(count%2==0)
-                time(&p1end);
-            else
-                time(&p2end);
+            // if(count%2==0)
+            //     time(&p1end);
+            // else
+            //     time(&p2end);
             return 0;
         }
         // addMatch(-2,dropNum,newX,newY,chessEat1[dropNum]-32,'t');
         switch(chessEat1[dropNum]){
-            case 'h': //角 -> 馬
+            case 'h': //角 <- 馬
                 *c='C';
                 break;
-            case 'd': //飛 -> 龍
+            case 'd': //飛 <- 龍
                 *c='F';
                 break;
-            case 'a': //銀 -> 全
+            case 'a': //銀 <- 全
                 *c='Y';
                 break; 
-            case 'x': //香 -> 杏
+            case 'x': //香 <- 杏
                 *c='S';
                 break;
-            case 'p': //桂 -> 圭
+            case 'p': //桂 <- 圭
                 *c='G';
                 break;
-            case 'k': //步 -> と
+            case 'k': //步 <- と
                 *c='B';
                 break;
             default:
@@ -199,30 +203,30 @@ int drop(){
     }
     else{
         if(dropNum>top2){
-            if(count%2==0)
-                time(&p1end);
-            else
-                time(&p2end);
+            // if(count%2==0)
+            //     time(&p1end);
+            // else
+            //     time(&p2end);
             return 0;
         }
         // addMatch(-2,dropNum,newX,newY,chessEat2[dropNum]+32,'t');
         switch(chessEat2[dropNum]){
-            case 'H': //角 -> 馬
+            case 'H': //角 <- 馬
                 *c='c';
                 break;
-            case 'D': //飛 -> 龍
+            case 'D': //飛 <- 龍
                 *c='f';
                 break;
-            case 'A': //銀 -> 全
+            case 'A': //銀 <- 全
                 *c='y';
                 break; 
-            case 'X': //香 -> 杏
+            case 'X': //香 <- 杏
                 *c='s';
                 break;
-            case 'P': //桂 -> 圭
+            case 'P': //桂 <- 圭
                 *c='g';
                 break;
-            case 'K': //步 -> と
+            case 'K': //步 <- と
                 *c='b';
                 break;
             default:
@@ -236,10 +240,10 @@ int drop(){
         chessEat2[top2]='t';
         top2--;
     }
-    if(count%2==0)
-        time(&p1end);
-    else
-        time(&p2end);
+    // if(count%2==0)
+    //     time(&p1end);
+    // else
+    //     time(&p2end);
     return 1;
     
 }
@@ -505,7 +509,10 @@ int moveCheck(int iX,int iY, int nX, int nY){
                 return 0;
             break;
         case 'j': // Lower "金將"
-        case 'k': // Lower "金"(成桂, 成銀, 成香)
+        case 'k': // Lower "金"
+        case 'p': // Lower "と"
+        case 'a': // Lower '全"
+        case 'x': // Lower "杏"
             if(abs(nY-iY)==1 || abs(nX-iX)==1){
                 if(nY==iY+1 && abs(nX-iX)==1)
                     return 0;
@@ -518,7 +525,10 @@ int moveCheck(int iX,int iY, int nX, int nY){
                 return 0;
             break;
         case 'J': // Upper "金將"
-        case 'K': // Upper "金"(成桂, 成銀, 成香)
+        case 'K': // Upper "と"
+        case 'P': // Upper '圭"
+        case 'A': // Upper "全"
+        case 'X': // Upper "杏"
             if(abs(nY-iY)==1 || abs(nX-iX)==1){
                 if(nY==iY-1 && abs(nX-iX)==1)
                     return 0;
@@ -532,7 +542,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             break;
         case 'w': // 王將
         case 'W':
-            if(((abs(nY-iY)+abs(nX-iX))<=2) && abs(nY-iY)!=2 && abs(nX-iX)!=2){
+            if(abs(nY-iY)<2 && abs(nX-iX)<2){
                 if(Side(nX,nY))
                     return 1;
                 else
@@ -540,27 +550,29 @@ int moveCheck(int iX,int iY, int nX, int nY){
             }
             break;
         case 'y': // Lower "銀將"
-            if(nY==iY)
-                return 0;
-            else if(nX==iX && nY-iY==1)
-                return 0;
-            else{
-                if(Side(nX,nY))
-                    return 1;
-                else
+            if(abs(nY-iY)<2 && abs(nX-iX)<2){
+                if(iX==nX && nY==iY+1)
                     return 0;
+                else if(nY==iY)
+                    return 0;
+                else{
+                    if(Side(nX,nY))
+                        return 1;
+                    else return 0;
+                }
             }
             break;
         case 'Y': // Upper "銀將"
-            if(nY==iY)
-                return 0;
-            else if(nX==iX && iY-nY==1)
-                return 0;
-            else{
-                if(Side(nX,nY))
-                    return 1;
-                else
+            if(abs(nY-iY)<2 && abs(nX-iX)<2){
+                if(iX==nX && nY==iY-1)
                     return 0;
+                else if(nY==iY)
+                    return 0;
+                else{
+                    if(Side(nX,nY))
+                        return 1;
+                    else return 0;
+                }
             }
             break;
         case 'c': // "角行"
@@ -608,7 +620,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             else
                 return 0;
             break;
-        case 'd':
+        case 'd': //龍
         case 'D':
             if((nX==iX)&&(nY!=iY)){
                 chessNum=0;
@@ -663,8 +675,49 @@ int moveCheck(int iX,int iY, int nX, int nY){
                     return 0;
             }
             break;
-        case 'h':
-        case 'H':
+        case 'h': // 馬
+        case 'H':if(abs(nX-iX)==abs(nY-iY)){
+            chessNum=0;
+            if(abs(nX-iX)<2 && abs(nY-iY)<2)
+                return 1;
+            // Choose the direction
+            if(nX>iX){ // Right
+                if(nY>iY){ // Down-Right
+                    for(i=iY+1,j=iX+1;i<nY;i++,j++){
+                        if(bd[i][j]!='t')
+                            chessNum++;
+                    }
+                }
+                else{ // Up-Right
+                    for(i=iY-1,j=iX+1;i>nY;i--,j++){
+                        if(bd[i][j]!='t')
+                            chessNum++;
+                    }
+                }
+            }
+            else{ // Left
+                if(nY>iY){ // Down-Left
+                    for(i=iY+1,j=iX-1;i<nY;i++,j--){
+                        if(bd[i][j]!='t')
+                            chessNum++;
+                    }
+                }
+                else{ // Up-Left
+                    for(i=iY-1,j=iX-1;i>nY;i--,j--){
+                        if(bd[i][j]!='t')
+                            chessNum++;
+                    }
+                }
+            }
+            // Find if there's any block
+            if(chessNum>0)
+                return 0;
+            else
+                if(Side(nX,nY))
+                    return 1;
+                else
+                    return 0; 
+            }
             break;
         default:
             return 0;

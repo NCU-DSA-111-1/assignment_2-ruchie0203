@@ -62,8 +62,10 @@ void main(int argc, char **argv){
         /* Start the timer for player1/player2*/
         // time(&p1start);
         // time(&p2start); 
+
         /* GAME MODE */
         while(status==1){
+            FLAG = INPUT1;
             timer();
             if(winlose()==1){
                 printf("= 恭喜上方玩家獲勝 =\n");
@@ -85,14 +87,13 @@ void main(int argc, char **argv){
             }
             
             scanf("%c",&input);
-            timer();
+            
             if(input == 's' || input == 'S'){ // Type in s/S for Game Save
                 getchar();
-                printf("Game Save!\n");
+                printf("Game save!\n");
                 status=1;
                 END = 0;
                 saveInfo();  
-                
                 sleep(1);
                 break;
             }
@@ -116,12 +117,13 @@ void main(int argc, char **argv){
                 saveInfo();
                 status = 0;
                 END = 1;
-                sleep(1);
+                // sleep(1);
                 break;
             }
             else if(input =='D' || input == 'd'){
                 getchar();
-                printf("選擇要打入的棋子編號！\n");
+                FLAG = DROPINPUT;
+                timer();
                 if(drop()){
                     count++;
                 }                
@@ -129,10 +131,10 @@ void main(int argc, char **argv){
             }
             inputX=input-48;
             scanf("%d",&inputY);
+            
             getchar();
             if(inputX > 10 || inputY > 10 || inputX < 0 || inputY < 0){
                 printf("輸入錯誤:(\n");
-                
                 sleep(1);
                 break;
             }
@@ -140,12 +142,12 @@ void main(int argc, char **argv){
             iY=inputY-1; //input position: y coordinate
             if(inputCheck(bd[iY][iX])==0){
                 printf("選錯棋子了！\n");
-                
                 sleep(1);
                 break;
             }
+            FLAG = INPUT2;
+            timer();
             /* Get Target */
-            printf("輸入下一步的座標X與Y:\n> ");
             scanf("%d",&newX);
             if((newX/10)==0)
                 scanf("%d",&newY);
@@ -155,8 +157,7 @@ void main(int argc, char **argv){
             }
             getchar();
             if(newX > 10 || newY > 10 || newX < 0 || newY < 0){
-                printf("輸入錯誤:P\n");
-                
+                printf("輸入錯誤:(\n");
                 sleep(1);
                 break;   
             }
@@ -180,13 +181,11 @@ void main(int argc, char **argv){
                         break;
                 } 
                 addMatch(iX,iY,nX,nY,bd[iY][iX],bd[nY][nX]);
-                
                 chessMove(iX,iY,nX,nY);
                 break;
             }
             else{
                 printf("違反規則:(\n");
-                
                 sleep(1);
                 break;
             }
@@ -240,19 +239,13 @@ void main(int argc, char **argv){
 }
 /* Calculate the time for player1/player2 */
 void timecalc(){
-    int p1sum=0,p2sum=0;
     if(count%2==0){
-        // p1sum+=abs(difftime(p1end,p1start));
-        // p1timeSec+=p1sum;
         if(((int)(p1timeSec)/60)!=0){
             p1timeMin+=((int)(p1timeSec)/60);
             p1timeSec=(int)(p1timeSec)%60;
         }
     }
-        
     else{
-        // p2sum+=abs(difftime(p2end,p2start));
-        // p2timeSec+=p2sum;
         if((p2timeSec/60)!=0){
             p2timeMin+=((int)(p2timeSec)/60);
             p2timeSec=(int)(p2timeSec)%60;
