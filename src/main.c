@@ -9,7 +9,9 @@ extern int optind, opterr, optopt;
 
 time_t p1start=0,p1end=0,p2start=0,p2end=0;
 matchPtr current,head,temp;
-
+int p1timeSec=0,p2timeSec=0;
+int p1timeMin=0,p2timeMin=0;
+int p1timesum=0,p2timesum=0;
 void main(int argc, char **argv){
     int i;
     int iX,iY,nX,nY,O;
@@ -22,9 +24,9 @@ void main(int argc, char **argv){
     temp=(matchPtr) malloc(sizeof(match));
     io_watcher = (ev_io*) malloc(sizeof(ev_io));
     timer_watcher = (ev_timer*) malloc(sizeof(ev_timer));
-
     current->next=current->previous=NULL; // Initialize the linked list
     head=current;
+    
     chessIni();
     /* GET THE OPTIONS */
     while((O =getopt(argc,argv,"ns:l:"))!=-1){
@@ -101,6 +103,7 @@ void main(int argc, char **argv){
                 getchar();
                 if(count==0){
                     printf("已經到第一手了\n");
+                    stoptimer();
                     sleep(1);
                     break;
                 }
@@ -236,26 +239,6 @@ void main(int argc, char **argv){
     free(current);
     free(head);
     fclose(fPtr);
-}
-/* Calculate the time for player1/player2 */
-void timecalc(){
-    if(count%2==0){
-        if(((int)(p1timeSec)/60)!=0){
-            p1timeMin+=((int)(p1timeSec)/60);
-            p1timeSec=(int)(p1timeSec)%60;
-        }
-    }
-    else{
-        if((p2timeSec/60)!=0){
-            p2timeMin+=((int)(p2timeSec)/60);
-            p2timeSec=(int)(p2timeSec)%60;
-        }
-    }
-}
-/* Print the timer above the chessboard */
-void printtimer(){
-    printf("上方玩家: %d:%02d\n",p1timeMin,(int)(p1timeSec));
-    printf("下方玩家: %d:%02d\n",p2timeMin,(int)(p2timeSec));
 }
 /* Print the chessboard*/
 void chessPrint(){

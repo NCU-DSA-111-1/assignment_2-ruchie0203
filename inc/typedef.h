@@ -14,7 +14,7 @@ extern char bd[ROW][COL];
 extern int status;
 extern int count, maxcount;
 extern int top1,top2;
-extern double p1timeSec,p2timeSec;
+extern int p1timeSec,p2timeSec,p1timesum,p2timesum;
 extern int p1timeMin,p2timeMin;
 extern char chessEat1[40];
 extern char chessEat2[40];

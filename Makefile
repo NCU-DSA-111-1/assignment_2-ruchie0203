@@ -4,6 +4,8 @@ obj = $(subst src,build,$(patsubst %.c,%.o,$(src)))
 filename = chess
 main = $(notdir $(obj))
 
+.PHONY = clean run load
+
 game: $(main)
 	$(CC) $(obj) -o bin/$(filename) -lev
 
@@ -17,7 +19,11 @@ rule.o: src/rule.c
 data.o: src/data.c
 	$(CC) -c src/data.c -o build/data.o
 
-.PHONY = clean
+run: bin/chess
+	./bin/chess -n -s game.txt
+
+load: bin/chess
+	./bin/chess -l game.txt
 
 clean:
 	-rm $(obj)

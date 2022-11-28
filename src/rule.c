@@ -10,8 +10,6 @@ char bd[ROW][COL];
 int status = 0;
 int count = 0, maxcount = 0;
 int top1=-1,top2=-1;
-double p1timeSec=0,p2timeSec=0;
-int p1timeMin=0,p2timeMin=0;
 char chessEat1[40];
 char chessEat2[40];
 int FROMREADTOPLAY=0;

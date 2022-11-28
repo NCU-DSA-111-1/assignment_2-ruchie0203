@@ -17,6 +17,9 @@ extern ev_timer* timer_watcher;
 extern Flags FLAG;
 
 void timer();
+void stoptimer();
+void timecalc();
+void printtimer();
 static void io_cb(EV_P_ ev_io *w, int revents);
 static void timer_cb(EV_P_ ev_timer *w, int revents);
 
