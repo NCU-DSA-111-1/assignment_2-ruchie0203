@@ -335,7 +335,6 @@ void chessMove(int iX,int iY, int nX, int nY, char cM, char cE){
         count++;
         return;
     }
-    // changeChessE(&cE);
     if(count%2==0 && cE!='t'){
         top1++;
         chessEat1[top1]=cE;
@@ -352,23 +351,13 @@ void chessMove(int iX,int iY, int nX, int nY, char cM, char cE){
 /* To make the chess "go backward" */
 void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
     int i;
-    // printf("count:%d\ntop1:%d\ntop2:%d\n",count,top1,top2);
-    // for(i=0;i<=top1;i++){
-    //     printf("%c ",chessEat1[i]);
-    // }
-    // printf("\n");
-    // for(i=0;i<=top2;i++){
-    //     printf("%c ",chessEat2[i]);
-    // }
-    // printf("\n");
-    // sleep(1);
     if(iX==-2){ // The DROP situation
         if(count%2==0){
             top1++;
             for(i=top1;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
                 chessEat1[i]=chessEat1[i-1];
             }
-            changeChessD(&cM);
+            changeChess(&cM);
             chessEat1[iY]=cM+32;
             bd[nY][nX]='t';
         }
@@ -377,16 +366,14 @@ void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
             for(i=top2;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
                 chessEat2[i]=chessEat2[i-1];
             }
-            changeChessD(&cM);
+            changeChess(&cM);
             chessEat2[iY]=cM-32;
             bd[nY][nX]='t';
         }
         return;
     }
-    // changeChessE(&cM);
     bd[iY][iX]=cM;
     bd[nY][nX]=cE;
-    // changeChessD(&cE);
     if(chessEat1[top1]==cE){
         chessEat1[top1]='t';
         top1--;
@@ -398,48 +385,48 @@ void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
     return;
 }
 /* Change the chess that is promoted and being eaten*/
-void changeChessE(char *c){
-    switch(*c){
-        case 'H': //馬 -> 角
-            *c = 'C';
-            break;
-        case 'D': //龍 -> 飛
-            *c = 'F';
-            break;
-        case 'A': //全 -> 銀
-            *c = 'Y';
-            break;
-        case 'X': //杏 -> 香
-            *c = 'S';
-            break;
-        case 'P': //圭 -> 桂
-            *c = 'G';
-            break;
-        case 'K': //と -> 步
-            *c = 'B';
-            break;
-        case 'h':
-            *c = 'c';
-            break;
-        case 'd':
-            *c = 'f';
-            break;
-        case 'a':
-            *c = 'y';
-            break;
-        case 'x':
-            *c = 's';
-            break;
-        case 'p':
-            *c = 'g';
-            break;
-        case 'k':
-            *c = 'b';
-            break;
-    }
-}
+// void changeChessE(char *c){
+//     switch(*c){
+//         case 'H': //馬 -> 角
+//             *c = 'C';
+//             break;
+//         case 'D': //龍 -> 飛
+//             *c = 'F';
+//             break;
+//         case 'A': //全 -> 銀
+//             *c = 'Y';
+//             break;
+//         case 'X': //杏 -> 香
+//             *c = 'S';
+//             break;
+//         case 'P': //圭 -> 桂
+//             *c = 'G';
+//             break;
+//         case 'K': //と -> 步
+//             *c = 'B';
+//             break;
+//         case 'h':
+//             *c = 'c';
+//             break;
+//         case 'd':
+//             *c = 'f';
+//             break;
+//         case 'a':
+//             *c = 'y';
+//             break;
+//         case 'x':
+//             *c = 's';
+//             break;
+//         case 'p':
+//             *c = 'g';
+//             break;
+//         case 'k':
+//             *c = 'b';
+//             break;
+//     }
+// }
 /* Change the chess that already promoted and being dropped*/
-void changeChessD(char *c){
+void changeChess(char *c){
     switch(*c){
         case 'U': //U -> 馬
             *c = 'H';

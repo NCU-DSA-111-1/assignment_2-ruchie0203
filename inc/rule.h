@@ -10,7 +10,6 @@ int moveCheck(int iX,int iY, int nX, int nY);
 void chessBack(int iX,int iY, int nX, int nY, char cM, char cE);
 void addMatch(int iX,int iY, int nX, int nY, char cM, char cE);
 int inputCheck(char chess);
-void changeChessD(char *c);
-void changeChessE(char *c);
+void changeChess(char *c);
 
 #endif
