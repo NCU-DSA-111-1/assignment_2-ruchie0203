@@ -109,7 +109,7 @@ void main(int argc, char **argv){
                 }
                 count--;
                 current=current->previous;
-                chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMove,current->chessEaten);
+                chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMoved,current->chessEaten);
                 temp=current->next;
                 current->next=NULL;
                 free(temp);
@@ -184,7 +184,7 @@ void main(int argc, char **argv){
                         break;
                 } 
                 addMatch(iX,iY,nX,nY,bd[iY][iX],bd[nY][nX]);
-                chessMove(iX,iY,nX,nY);
+                chessMove(iX,iY,nX,nY,bd[iY][iX],bd[nY][nX]);
                 break;
             }
             else{
@@ -210,13 +210,13 @@ void main(int argc, char **argv){
                 sleep(1);
             }
             else if((input == 'f' || input == 'F') && count < maxcount){
-                chessMove(current->iX,current->iY,current->nX,current->nY);
+                chessMove(current->iX,current->iY,current->nX,current->nY,current->chessMoved,current->chessEaten);
                 current=current->next;
             }
             else if((input == 'b' || input == 'B') && count > 0){
                 count--;
                 current=current->previous;
-                chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMove,current->chessEaten);
+                chessBack(current->iX,current->iY,current->nX,current->nY,current->chessMoved,current->chessEaten);
             }
             else if(input == 'e' || input == 'E'){
                 END = 1;
@@ -304,15 +304,19 @@ void chessIdentify(char c){
             printf("．");
             break;
         case 'b':
+        case 'q':
             printf("\033[31m步\033[0m");
             break;
         case 'B':
+        case 'Q':
             printf("\033[34m步\033[0m");
             break;
         case 'f':
+        case 'l':
             printf("\033[31m飛\033[0m");
             break;
         case 'F':
+        case 'L':
             printf("\033[34m飛\033[0m");
             break;
         case 'c':
@@ -322,21 +326,27 @@ void chessIdentify(char c){
             printf("\033[34m角\033[0m");
             break;
         case 's':
+        case 'z':
             printf("\033[31m香\033[0m");
             break;
         case 'S':
+        case 'Z':
             printf("\033[34m香\033[0m");
             break;
         case 'g':
+        case 'i':
             printf("\033[31m桂\033[0m");
             break;
         case 'G':
+        case 'I':
             printf("\033[34m桂\033[0m");
             break;
         case 'y':
+        case 'n':
             printf("\033[31m銀\033[0m");
             break;
         case 'Y':
+        case 'N':
             printf("\033[34m銀\033[0m");
             break;
         case 'j':

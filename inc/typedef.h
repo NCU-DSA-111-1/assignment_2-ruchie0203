@@ -26,7 +26,7 @@ extern time_t p1start,p1end,p2start,p2end;
 
 struct matchinfo{
     int iX,iY,nX,nY;
-    char chessMove;
+    char chessMoved;
     char chessEaten;
     struct matchinfo* next;
     struct matchinfo* previous;

@@ -73,24 +73,26 @@ static void timer_cb(EV_P_ ev_timer *w, int revents){
 }
 /* Print the timer above the chessboard */
 void printtimer(){
-    printf("上方玩家: %d:%02d\n",p1timeMin,(int)(p1timeSec));
-    printf("下方玩家: %d:%02d\n",p2timeMin,(int)(p2timeSec));
+    printf("上方玩家: %d:%02d\n",p1timeMin,p1timeSec);
+    printf("下方玩家: %d:%02d\n",p2timeMin,p2timeSec);
 }
 /* Calculate the time for player1/player2 */
 void timecalc(){
     if(count%2==0){
         p1timeSec = p1timesum + abs(difftime(p1start,p1end));
-        if(((int)(p1timeSec)/60)!=0){
-            p1timeMin+=((int)(p1timeSec)/60);
+        if((p1timeSec/60)!=0){
+            p1timeMin++;
             p1timeSec=0;
+            time(&p1start);
             // p1timeSec=(int)(p1timeSec)%60;
         }
     }
     else{
         p2timeSec = p2timesum + abs(difftime(p2start,p2end));
         if((p2timeSec/60)!=0){
-            p2timeMin+=((int)(p2timeSec)/60);
+            p2timeMin++;
             p2timeSec=0;
+            time(&p2start);
             // p2timeSec=(int)(p2timeSec)%60;
         }
     }

@@ -122,20 +122,12 @@ int drop(){
     if(dropNum<=0){
         printf("選錯了啦!\n");
         sleep(1);
-        // if(count%2==0)
-        //     time(&p1end);
-        // else
-        //     time(&p2end);
         return 0;
     }
     dropNum-=1;
     if((count%2==0 && dropNum>top1) || (count%2==1 && dropNum>top2)){
         printf("駒台上沒有這個位子喔!\n");
         sleep(1);
-        // if(count%2==0)
-        //     time(&p1end);
-        // else
-        //     time(&p2end);
         return 0;
     }
     FLAG = DROPPLACE;
@@ -154,39 +146,28 @@ int drop(){
     if((*c)!='t'){
         printf("必須選空的地方！\n");
         sleep(1);
-        // if(count%2==0)
-        //     time(&p1end);
-        // else
-        //     time(&p2end);
         return 0;
     }
     if(count%2==0){
-        if(dropNum>top1){
-            // if(count%2==0)
-            //     time(&p1end);
-            // else
-            //     time(&p2end);
-            return 0;
-        }
-        // addMatch(-2,dropNum,newX,newY,chessEat1[dropNum]-32,'t');
+        // *c=(char)(chessEat1[dropNum]-32);
         switch(chessEat1[dropNum]){
-            case 'h': //角 <- 馬
-                *c='C';
+            case 'h': //馬u -> 角
+                *c='U';
                 break;
-            case 'd': //飛 <- 龍
-                *c='F';
+            case 'd': //龍l -> 飛
+                *c='L';
                 break;
-            case 'a': //銀 <- 全
-                *c='Y';
+            case 'a': //全n -> 銀
+                *c='N';
                 break; 
-            case 'x': //香 <- 杏
-                *c='S';
+            case 'x': //杏z -> 香
+                *c='Z';
                 break;
-            case 'p': //桂 <- 圭
-                *c='G';
+            case 'p': //圭i -> 桂
+                *c='I';
                 break;
-            case 'k': //步 <- と
-                *c='B';
+            case 'k': //とq -> 步
+                *c='Q';
                 break;
             default:
                 *c=(char)(chessEat1[dropNum]-32);
@@ -200,32 +181,25 @@ int drop(){
         top1--;
     }
     else{
-        if(dropNum>top2){
-            // if(count%2==0)
-            //     time(&p1end);
-            // else
-            //     time(&p2end);
-            return 0;
-        }
-        // addMatch(-2,dropNum,newX,newY,chessEat2[dropNum]+32,'t');
+        // *c=(char)(chessEat2[dropNum]+32);
         switch(chessEat2[dropNum]){
-            case 'H': //角 <- 馬
-                *c='c';
+            case 'H': //馬 -> 角
+                *c='u';
                 break;
-            case 'D': //飛 <- 龍
-                *c='f';
+            case 'D': //龍 -> 飛
+                *c='l';
                 break;
-            case 'A': //銀 <- 全
-                *c='y';
+            case 'A': //全 -> 銀
+                *c='n';
                 break; 
-            case 'X': //香 <- 杏
-                *c='s';
+            case 'X': //杏 -> 香
+                *c='z';
                 break;
-            case 'P': //桂 <- 圭
-                *c='g';
+            case 'P': //圭 -> 桂
+                *c='i';
                 break;
-            case 'K': //步 <- と
-                *c='b';
+            case 'K': //と -> 步
+                *c='q';
                 break;
             default:
                 *c=(char)(chessEat2[dropNum]+32);
@@ -238,10 +212,6 @@ int drop(){
         chessEat2[top2]='t';
         top2--;
     }
-    // if(count%2==0)
-    //     time(&p1end);
-    // else
-    //     time(&p2end);
     return 1;
     
 }
@@ -265,6 +235,11 @@ int Side(int x,int y){
             case 'a':
             case 'x':
             case 'p':
+            case 'i':
+            case 'q':
+            case 'n':
+            case 'l':
+            case 'u':
                 return 1;
                 break;
             case 'B':
@@ -281,6 +256,11 @@ int Side(int x,int y){
             case 'A':
             case 'X':
             case 'P':
+            case 'I':
+            case 'Q':
+            case 'N':
+            case 'L':
+            case 'U':
                 return 0;
                 break;                        
         }
@@ -299,6 +279,11 @@ int Side(int x,int y){
             case 'a':
             case 'x':
             case 'p':
+            case 'i':
+            case 'q':
+            case 'n':
+            case 'l':
+            case 'u':
                 return 0;
                 break;
             case 'B':
@@ -316,6 +301,11 @@ int Side(int x,int y){
             case 'X':
             case 'P':
             case 'K':
+            case 'I':
+            case 'Q':
+            case 'N':
+            case 'L':
+            case 'U':
                 return 1;
                 break;                               
         }
@@ -324,10 +314,10 @@ int Side(int x,int y){
         return 0;
 }
 /* To move the chess */
-void chessMove(int iX,int iY, int nX, int nY){
+void chessMove(int iX,int iY, int nX, int nY, char cM, char cE){
     int i;
     if(iX==-2){ // The DROP situation
-        bd[nY][nX]=current->chessMove;
+        bd[nY][nX]=current->chessMoved;
         if(count%2==0){
             for(i=iY;i<top1;i++){ // iY now is the dropNum(the number of chess that player wants to drop)
                 chessEat1[i]=chessEat1[i+1];
@@ -345,18 +335,149 @@ void chessMove(int iX,int iY, int nX, int nY){
         count++;
         return;
     }
-    if(count%2==0 && bd[nY][nX]!='t'){
+    // changeChessE(&cE);
+    if(count%2==0 && cE!='t'){
         top1++;
-        chessEat1[top1]=bd[nY][nX];
+        chessEat1[top1]=cE;
     }
-    else if(count%2==1 && bd[nY][nX]!='t'){
+    else if(count%2==1 && cE!='t'){
         top2++;
-        chessEat2[top2]=bd[nY][nX];
+        chessEat2[top2]=cE;
     }
-    bd[nY][nX]=bd[iY][iX];
+    bd[nY][nX]=cM;
     bd[iY][iX]='t';
     count++;
     return;
+}
+/* To make the chess "go backward" */
+void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
+    int i;
+    // printf("count:%d\ntop1:%d\ntop2:%d\n",count,top1,top2);
+    // for(i=0;i<=top1;i++){
+    //     printf("%c ",chessEat1[i]);
+    // }
+    // printf("\n");
+    // for(i=0;i<=top2;i++){
+    //     printf("%c ",chessEat2[i]);
+    // }
+    // printf("\n");
+    // sleep(1);
+    if(iX==-2){ // The DROP situation
+        if(count%2==0){
+            top1++;
+            for(i=top1;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
+                chessEat1[i]=chessEat1[i-1];
+            }
+            changeChessD(&cM);
+            chessEat1[iY]=cM+32;
+            bd[nY][nX]='t';
+        }
+        else{
+            top2++;
+            for(i=top2;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
+                chessEat2[i]=chessEat2[i-1];
+            }
+            changeChessD(&cM);
+            chessEat2[iY]=cM-32;
+            bd[nY][nX]='t';
+        }
+        return;
+    }
+    // changeChessE(&cM);
+    bd[iY][iX]=cM;
+    bd[nY][nX]=cE;
+    // changeChessD(&cE);
+    if(chessEat1[top1]==cE){
+        chessEat1[top1]='t';
+        top1--;
+    }
+    else if(chessEat2[top2]==cE){
+        chessEat2[top2]='t';
+        top2--;
+    }
+    return;
+}
+/* Change the chess that is promoted and being eaten*/
+void changeChessE(char *c){
+    switch(*c){
+        case 'H': //馬 -> 角
+            *c = 'C';
+            break;
+        case 'D': //龍 -> 飛
+            *c = 'F';
+            break;
+        case 'A': //全 -> 銀
+            *c = 'Y';
+            break;
+        case 'X': //杏 -> 香
+            *c = 'S';
+            break;
+        case 'P': //圭 -> 桂
+            *c = 'G';
+            break;
+        case 'K': //と -> 步
+            *c = 'B';
+            break;
+        case 'h':
+            *c = 'c';
+            break;
+        case 'd':
+            *c = 'f';
+            break;
+        case 'a':
+            *c = 'y';
+            break;
+        case 'x':
+            *c = 's';
+            break;
+        case 'p':
+            *c = 'g';
+            break;
+        case 'k':
+            *c = 'b';
+            break;
+    }
+}
+/* Change the chess that already promoted and being dropped*/
+void changeChessD(char *c){
+    switch(*c){
+        case 'U': //U -> 馬
+            *c = 'H';
+            break;
+        case 'L': //L -> 龍
+            *c = 'D';
+            break;
+        case 'N': //N -> 全
+            *c = 'A';
+            break;
+        case 'Z': //Z -> 杏
+            *c = 'X';
+            break;
+        case 'I': //I -> 圭
+            *c = 'P';
+            break;
+        case 'Q': //Q -> と
+            *c = 'K';
+            break;
+        case 'u':
+            *c = 'h';
+            break;
+        case 'l':
+            *c = 'd';
+            break;
+        case 'n':
+            *c = 'a';
+            break;
+        case 'z':
+            *c = 'x';
+            break;
+        case 'i':
+            *c = 'p';
+            break;
+        case 'q':
+            *c = 'k';
+            break;
+    }   
 }
 /* Check if the winning condition is satisfied */
 int winlose(){
@@ -378,6 +499,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
     int i,j,chessNum=0;
     switch(bd[iY][iX]){
         case 'b': // Lower "步"
+        case 'q':
             if(nX==iX && iY-nY == 1){
                 return 1;
             }
@@ -386,6 +508,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             }
             break;
         case 'B': // Upper "步"
+        case 'Q':
             if(nX==iX && nY-iY == 1){
                 return 1;
             }
@@ -394,6 +517,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             }
             break;
         case 's': // Lower "香車"
+        case 'z':
             if(nX==iX && (nY < iY)){
                 chessNum=0;
                 for(i=iY-1;i>nY;i--){
@@ -412,6 +536,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
                 return 0;
             break;
         case 'S': // Upper "香車"
+        case 'Z':
             if(nX==iX && (nY > iY)){
                 chessNum=0;
                 for(i=iY+1;i<nY;i++){
@@ -430,7 +555,9 @@ int moveCheck(int iX,int iY, int nX, int nY){
                 return 0;
             break;
         case 'f': // 飛車
-        case 'F': 
+        case 'F':
+        case 'l':
+        case 'L': 
             if((nX==iX)&&(nY!=iY)){
                 chessNum=0;
                 /* Choose the vertical direction(Up/Down) */
@@ -479,6 +606,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             }
             break;
         case 'g': // Lower "桂馬"
+        case 'i':
             if(iY-nY==2){               
                 if(abs(nX-iX)==1){
                     if(Side(nX,nY))
@@ -493,6 +621,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
                 return 0;
             break;
         case 'G': // Upper "桂馬"
+        case 'I':
             if(nY-iY==2){
                 if(abs(nX-iX)==1){
                     if(Side(nX,nY))
@@ -548,6 +677,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             }
             break;
         case 'y': // Lower "銀將"
+        case 'n':
             if(abs(nY-iY)<2 && abs(nX-iX)<2){
                 if(iX==nX && nY==iY+1)
                     return 0;
@@ -561,6 +691,7 @@ int moveCheck(int iX,int iY, int nX, int nY){
             }
             break;
         case 'Y': // Upper "銀將"
+        case 'N':
             if(abs(nY-iY)<2 && abs(nX-iX)<2){
                 if(iX==nX && nY==iY-1)
                     return 0;
@@ -575,6 +706,8 @@ int moveCheck(int iX,int iY, int nX, int nY){
             break;
         case 'c': // "角行"
         case 'C':
+        case 'u':
+        case 'U':
             if(abs(nX-iX)==abs(nY-iY)){
                 chessNum=0;
                 // Choose the direction
@@ -722,78 +855,6 @@ int moveCheck(int iX,int iY, int nX, int nY){
             break;
     }
 }
-/* To make the chess "go backward" */
-void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
-    int i;
-    if(iX==-2){ // The DROP situation
-        if(count%2==0){
-            top1++;
-            for(i=top1;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
-                chessEat1[i]=chessEat1[i-1];
-            }
-            chessEat1[iY]=cM+32;
-            bd[nY][nX]='t';
-        }
-        else{
-            top2++;
-            for(i=top2;i>=iY;i--){ // iY now is the dropNum(the number of chess that player wants to drop)
-                chessEat2[i]=chessEat2[i-1];
-            }
-            chessEat2[iY]=cM-32;
-            bd[nY][nX]='t';
-        }
-        return;
-    }
-    switch(cM){
-        case 'D':
-            cM = 'F';
-            break;
-        case 'H':
-            cM = 'C';
-            break;
-        case 'X':
-            cM = 'S';
-            break;
-        case 'K':
-            cM = 'B';
-            break;
-        case 'P':
-            cM = 'G';
-            break;
-        case 'A':
-            cM = 'Y';
-            break;
-        case 'd':
-            cM = 'f';
-            break;
-        case 'h':
-            cM = 'c';
-            break;
-        case 'x':
-            cM = 's';
-            break;
-        case 'k':
-            cM = 'b';
-            break;
-        case 'p':
-            cM = 'g';
-            break;
-        case 'a':
-            cM = 'y';
-            break;            
-        
-    }
-    bd[iY][iX]=cM;
-    bd[nY][nX]=cE;
-    if(chessEat1[top1]==cE){
-        chessEat1[top1]='t';
-        top1--;
-    }
-    else if(chessEat2[top2]==cE){
-        chessEat2[top2]='t';
-        top2--;
-    }
-}
 /* Determine if the player select the right chess in their team */
 int inputCheck(char chess){
     if(count%2==1){
@@ -806,6 +867,7 @@ int inputCheck(char chess){
             case 's':
             case 'j':
             case 'w':
+            case 'z':
                 return 1;
                 break;
             case 'B':
@@ -817,6 +879,7 @@ int inputCheck(char chess){
             case 'J':
             case 'W':
             case 't':
+            case 'Z':
                 return 0;
                 break;                        
         }
@@ -832,6 +895,7 @@ int inputCheck(char chess){
             case 'j':
             case 'w':
             case 't':
+            case 'z':
                 return 0;
                 break;
             case 'B':
@@ -842,6 +906,7 @@ int inputCheck(char chess){
             case 'S':
             case 'J':
             case 'W':
+            case 'Z':
                 return 1;
                 break;                        
         }

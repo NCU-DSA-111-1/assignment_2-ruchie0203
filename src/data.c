@@ -1,7 +1,7 @@
 #include "../inc/data.h"
 #include "../inc/typedef.h"
 
-/* Read the file and store the data in "Match" array */
+/* Read the file and store the data by adding new node */
 void readbd(){
     int i;
     int iX,iY,nX,nY;
@@ -11,9 +11,13 @@ void readbd(){
         if(iX==-1)
             break;
         addMatch(iX,iY,nX,nY,chessmoved,chesseaten);
-        chessMove(iX,iY,nX,nY);
+        count++;
+        // chessMove(iX,iY,nX,nY,chessmoved,chesseaten);
     }
+    current=head;
     maxcount=count;
+    count = 0;
+
 }
 /* Save the chessboard */
 void saveInfo(){
@@ -21,7 +25,7 @@ void saveInfo(){
     rewind(fPtr);
     current=head;
     for(i=0;i<count;i++){
-        fprintf(fPtr,"%d %d %c %d %d %c\n",current->iX,current->iY,current->chessMove,current->nX,current->nY,current->chessEaten);
+        fprintf(fPtr,"%d %d %c %d %d %c\n",current->iX,current->iY,current->chessMoved,current->nX,current->nY,current->chessEaten);
         current=current->next;
     }
     if(FROMREADTOPLAY && count<maxcount){
@@ -37,7 +41,7 @@ void addMatch(int iX,int iY, int nX, int nY, char cM, char cE){
     current->iY=iY;
     current->nX=nX;
     current->nY=nY;
-    current->chessMove=cM;
+    current->chessMoved=cM;
     current->chessEaten=cE;
     current->next=new;
     new->previous=current;
