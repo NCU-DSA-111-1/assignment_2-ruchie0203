@@ -417,7 +417,7 @@ void chessBack(int iX,int iY, int nX, int nY, char cM, char cE){
 //         case 'x':
 //             *c = 's';
 //             break;
-//         case 'p':
+//         case 'p':    
 //             *c = 'g';
 //             break;
 //         case 'k':

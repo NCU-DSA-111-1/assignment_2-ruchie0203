@@ -12,6 +12,7 @@ matchPtr current,head,temp;
 int p1timeSec=0,p2timeSec=0;
 int p1timeMin=0,p2timeMin=0;
 int p1timesum=0,p2timesum=0;
+
 void main(int argc, char **argv){
     int i;
     int iX,iY,nX,nY,O;
@@ -20,7 +21,7 @@ void main(int argc, char **argv){
     char input;
     
     current=(matchPtr) malloc(sizeof(match));
-    head=(matchPtr) malloc(sizeof(match));
+    head=(matchPtr) malloc(sizeof(match));  
     temp=(matchPtr) malloc(sizeof(match));
     io_watcher = (ev_io*) malloc(sizeof(ev_io));
     timer_watcher = (ev_timer*) malloc(sizeof(ev_timer));
@@ -29,7 +30,7 @@ void main(int argc, char **argv){
     
     chessIni();
     /* GET THE OPTIONS */
-    while((O =getopt(argc,argv,"ns:l:"))!=-1){
+    while((O=getopt(argc,argv,"ns:l:"))!=-1){
         switch(O){
             case 'n': // -n: new game
                 status=1;
@@ -61,9 +62,6 @@ void main(int argc, char **argv){
         }
     }
     while(!END){
-        /* Start the timer for player1/player2*/
-        // time(&p1start);
-        // time(&p2start); 
 
         /* GAME MODE */
         while(status==1){
@@ -96,7 +94,7 @@ void main(int argc, char **argv){
                 status=1;
                 END = 0;
                 saveInfo();  
-                sleep(1);
+                sleep(2);
                 break;
             }
             else if(input == '0'){ // Type in 0 for Regret
