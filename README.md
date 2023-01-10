@@ -3,18 +3,20 @@
 ## **Compile**
 
 ```bash
-make
-gcc -c src/rule.c -o build/rule.o
-gcc -c src/data.c -o build/data.o
-gcc src/main.c build/rule.o build/data.o -o bin/chess
+> make
+    gcc -c src/rule.c -o build/rule.o
+    gcc -c src/data.c -o build/data.o
+    gcc src/main.c build/rule.o build/data.o -o bin/chess
 ```
 ## **Run**
 
-* Use -n -s <file_name.txt> for a new game and game saving.
-* Use -l <file_name.txt> for loading a game
+* Use **make run** [ -n -s <file_name.txt> ] for a new game and game saving.
+* Use **make load** [ -l <file_name.txt> ] for loading a game
 ```bash
-./bin/chess -n -s game.txt
-./bin/chess -l game.txt
+> make run
+    ./bin/chess -n -s game.txt
+> make load
+    ./bin/chess -l game.txt
 ```
 ## **Game Method**
 
@@ -133,11 +135,18 @@ As either side eat their opponent's **王** chess. They will be the winner!
 1. After loading a game and type in P to enter the playing mode. The move making is fine, but when saving the game, the game CAN rewrite the data to the right position in the saving file, but it CANNOT erase the rest of the data that is originally in the file.
      - **Current Thought** *(Solved)*:   
         Detect the "count" to see if it is smaller than "maxcount", if it does, then fprintf "-1" into the file. When loading the file, if it detect "-1", then the function will break to end the loading process and update the new "maxcount".
-2. **Functions not test yet**:  
+2. If a promoted chess has been eaten and the regret funtion is called, the plate will display incorrectly.
+    - **Current Thought** *(Some solved)*:  
+        When a promoted chess is drop, use switch to let the plate store with another character.
+        If the *chessBack* function is called, use the *chessChange* function to change the chess back to normal format (promoted state).
+    - **Unsolved**:  
+    
+        When loading a game, if a chess was promoted and we type in **B** to move backward, the promoted chess would not change back into the unpromted state immediately.
+3. **Functions not test yet**:  
 (1) Some functions after dropping the chess.
-3. **Lack function**: Timer(Libev), 升變-強制升變
-## **Reference**
+4. **Lack function**: ~~Timer(Libev)~~, 升變-強制升變
 
+## **Reference**
 (1) [Shogi Rule](https://shogi-classroom.blogspot.com/2012/09/blog-post.html)  
 (2) getopt( ) function :  
 　　- [getopt的用法與optarg](https://www.796t.com/content/1550615426.html)  
