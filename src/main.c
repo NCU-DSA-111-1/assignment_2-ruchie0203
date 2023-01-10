@@ -12,7 +12,7 @@ matchPtr current,head,temp;
 int p1timeSec=0,p2timeSec=0;
 int p1timeMin=0,p2timeMin=0;
 int p1timesum=0,p2timesum=0;
-
+    
 void main(int argc, char **argv){
     int i;
     int iX,iY,nX,nY,O;
